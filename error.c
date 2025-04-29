@@ -131,6 +131,18 @@ enum asys_result asys_result_errno_path(
 # ifdef EOPNOTSUPP
 			case EOPNOTSUPP: return ASYS_RESULT_NOT_IMPLEMENTED;
 # endif
+# ifdef EWOULDBLOCK
+			case EWOULDBLOCK: return ASYS_RESULT_BLOCKING;
+# endif
+# ifdef EAGAIN
+#  ifdef EWOULDBLOCK
+#   if EAGAIN != EWOULDBLOCK
+			case EAGAIN: return ASYS_RESULT_BLOCKING;
+#   endif
+#  else
+			case EAGAIN: return ASYS_RESULT_BLOCKING;
+#  endif
+# endif
 	}
 }
 #endif

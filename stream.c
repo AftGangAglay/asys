@@ -68,15 +68,8 @@ enum asys_result asys_stream_new_write(
 	 * NOTE: This can't just be turned off as pgen needs to generate the
 	 * 		 Grammar definition.
 	 */
-	/*
-	 * TODO: Can we just remove pgen and generate+hold grammar spec at runtime.
-	 */
-#ifndef AGA_DEVBUILD
-	asys_log(
-			__FILE__,
-			"warn: Opening writeable file `%s' in non-devbuild is inadvisable",
-			path);
-#endif
+	/* TODO: Remove pgen and generate+hold grammar spec at runtime. */
+
 
 #ifdef ASYS_WIN32
 	if((stream->handle = _lcreat(path, 0)) == HFILE_ERROR) {
@@ -98,6 +91,27 @@ enum asys_result asys_stream_new_write(
 
 	if(!(stream->handle = fopen(path, "w"))) {
 		return asys_result_errno_path(__FILE__, "fopen", path);
+	}
+
+	return ASYS_RESULT_OK;
+#else
+	(void) stream;
+	(void) path;
+
+	return ASYS_RESULT_NOT_IMPLEMENTED;
+#endif
+}
+
+enum asys_result asys_stream_set_nonblock(struct asys_stream* stream) {
+#ifdef ASYS_UNIX
+	int fl;
+
+	if((fl = fcntl(stream->handle, F_GETFL)) == -1) {
+		return asys_result_errno(__FILE__, "fcntl");
+	}
+
+	if(fcntl(stream->handle, F_SETFL, fl | O_NONBLOCK) == -1) {
+		return asys_result_errno(__FILE__, "fcntl");
 	}
 
 	return ASYS_RESULT_OK;
@@ -452,9 +466,8 @@ enum asys_result asys_stream_attribute(
 }
 
 enum asys_result asys_stream_write(
-		struct asys_stream* stream, const void* buffer, asys_size_t count) {
-
-	/* TODO: Disable once static pgen. */
+		struct asys_stream* stream, asys_size_t* write_count,
+		const void* buffer, asys_size_t count) {
 
 #ifdef ASYS_WIN32
 	enum asys_result result;
@@ -467,9 +480,14 @@ enum asys_result asys_stream_write(
 
 	return ASYS_RESULT_OK;
 #elif defined(ASYS_UNIX)
-	if(write(stream->handle, buffer, count) == -1) {
-		return asys_result_errno(__FILE__, "write");
+	ssize_t written;
+
+	if((written = write(stream->handle, buffer, count)) == -1) {
+		if(asys_result_errno(0, 0) == ASYS_RESULT_BLOCKING) written = 0;
+		else return asys_result_errno(__FILE__, "write");
 	}
+
+	if(write_count) *write_count = (asys_size_t) written;
 
 	return ASYS_RESULT_OK;
 #elif defined(ASYS_STDC)
@@ -521,19 +539,17 @@ enum asys_result asys_stream_write_format_variadic(
 	result = asys_string_format_variadic(&buffer, &count, format, list);
 	if(result) return result;
 
-	return asys_stream_write(stream, buffer, count);
+	return asys_stream_write(stream, 0, buffer, count);
 }
 
 enum asys_result asys_stream_write_characters(
 		struct asys_stream* stream, char character, asys_size_t count) {
 
-	/* TODO: Disable once static pgen. */
-
 	enum asys_result result;
 	asys_size_t i;
 
 	for(i = 0; i < count; ++i) {
-		if((result = asys_stream_write(stream, &character, 1))) return result;
+		if((result = asys_stream_write(stream, 0, &character, 1))) return result;
 	}
 
 	return ASYS_RESULT_OK;
@@ -568,7 +584,7 @@ enum asys_result asys_stream_splice(
 
 			held_result = result;
 
-			result = asys_stream_write(to, buffer, read_count);
+			result = asys_stream_write(to, 0, buffer, read_count);
 			if(result) return result;
 
 			if(held_result == ASYS_RESULT_EOF) break;
@@ -587,7 +603,7 @@ enum asys_result asys_stream_splice(
 		result = asys_stream_read(from, 0, buffer, to_read);
 		if(result) return result;
 
-		result = asys_stream_write(to, buffer, to_read);
+		result = asys_stream_write(to, 0, buffer, to_read);
 		if(result) return result;
 
 		if(to_read == remaining) break;
