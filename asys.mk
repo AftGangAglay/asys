@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Copyright (C) 2024 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
+# Copyright (C) 2024, 2025 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
 
 # NOTE: See Win3 Guide section 14.5 for useful implementation info:
 #		http://www.bitsavers.org/pdf/microsoft/windows_3.1
 #		Windows_3.1_Guide_to_Programming_1992.pdf, Page 331
 #		Also see here: https://winasm.tripod.com/Clib.html
 
-ASYS = lib$(SEP)sys$(SEP)
+# TODO: Restructure to be more appropriate for submoduling like MIL.
+
+ASYS = lib$(SEP)asys$(SEP)
 ASYS_INCLUDE = $(ASYS)include$(SEP)
 
 ASYSH = $(ASYS_INCLUDE)asys$(SEP)
