@@ -12,7 +12,10 @@
 void asys_result_format(
 		asys_fixed_buffer_t*, const char*, const char*, enum asys_result);
 
+ASYS_NORETURN
 void asys_result_fatal(const char*, const char*, enum asys_result);
+
+ASYS_NORETURN
 void asys_result_fatal_path(
 		const char*, const char*, const char*, enum asys_result);
 

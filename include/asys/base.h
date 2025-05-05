@@ -51,10 +51,17 @@
 # if __has_attribute(fallthrough)
 #  define ASYS_FALLTHROUGH __attribute__((fallthrough))
 # endif
+# if __has_attribute(noreturn)
+#  define ASYS_NORETURN __attribute__((noreturn))
+# endif
 #endif
 
 #ifndef ASYS_FALLTHROUGH
 # define ASYS_FALLTHROUGH
+#endif
+
+#ifndef ASYS_NORETURN
+# define ASYS_NORETURN
 #endif
 
 #define ASYS_LENGTH(arr) (sizeof((arr)) / sizeof((arr)[0]))
