@@ -117,7 +117,6 @@ enum asys_result asys_stream_set_nonblock(struct asys_stream* stream) {
 	return ASYS_RESULT_OK;
 #else
 	(void) stream;
-	(void) path;
 
 	return ASYS_RESULT_NOT_IMPLEMENTED;
 #endif
@@ -472,11 +471,15 @@ enum asys_result asys_stream_write(
 #ifdef ASYS_WIN32
 	enum asys_result result;
 
-	if(_hwrite(stream->handle, buffer, (long) count) == -1L) {
+	long written;
+
+	if((written = _hwrite(stream->handle, buffer, (long) count)) == -1L) {
 		result = ASYS_RESULT_ERROR;
 		asys_log_result(__FILE__, "_hwrite", result);
 		return result;
 	}
+
+	if(write_count) *write_count = (asys_size_t) written;
 
 	return ASYS_RESULT_OK;
 #elif defined(ASYS_UNIX)
