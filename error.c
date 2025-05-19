@@ -62,6 +62,12 @@ void asys_result_fatal_path(
 	 * TODO: This should not be shown during headless execution (during build).
 	 */
 	FatalAppExit(0, buffer);
+
+	/*
+	 * NOTE: `TerminateApp' would be more appropriate here but `toolhelp.h'
+	 * 		 Appears to have gone walkabouts at some point. `Terminate16App'
+	 * 		 Has some references but would need some testing.
+	 */
 	ExitProcess(1);
 #else
 	asys_log_result_path(file, function, path, result);

@@ -37,6 +37,10 @@ void asys_log(const char* file, const char* format, ...) {
 	asys_string_format_variadic(&body, 0, format, list);
 	asys_string_format(&buffer, &length, "[%s] %s", file, body);
 
+	/*
+	 * TODO: Did the slightly more expressive `DebugOutput' function disappear
+	 * 		 At some point?
+	 */
 	OutputDebugString(buffer);
 #else
 	(void) file;

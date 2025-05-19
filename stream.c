@@ -293,12 +293,12 @@ enum asys_result asys_stream_read(
 	enum asys_result result;
 
 	/* TODO: Need to detect EOF for Python readline. */
-	long read_result = _hread(stream->handle, buffer, (LONG) count);
+	long read_result = _lread(stream->handle, buffer, (LONG) count);
 	if(read_count) *read_count = read_result;
 
 	if(read_result == -1L) {
 		result = ASYS_RESULT_ERROR;
-		asys_log_result(__FILE__, "_hread", result);
+		asys_log_result(__FILE__, "_lread", result);
 		return result;
 	}
 	else if(read_result < (long) count) return ASYS_RESULT_EOF;
@@ -471,9 +471,14 @@ enum asys_result asys_stream_write(
 #ifdef ASYS_WIN32
 	enum asys_result result;
 
-	long written;
+	/* TODO: Can this be `_lwrite'? The comment here:
+	 * https://github.com/wine-mirror/wine/blob/master/dlls/kernel32/file.c
+	 * 		 On line 157 suggests they have slightly different semantics but
+	 * 		 `_hwrite' was not present in the Windows 3.1 SDK.
+	 */
+	long written = _hwrite(stream->handle, buffer, (long) count);
 
-	if((written = _hwrite(stream->handle, buffer, (long) count)) == -1L) {
+	if(written == -1L) {
 		result = ASYS_RESULT_ERROR;
 		asys_log_result(__FILE__, "_hwrite", result);
 		return result;
