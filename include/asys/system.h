@@ -24,6 +24,7 @@
 # include <dos.h>
 # include <io.h>
 # include <winsock.h>
+# include <direct.h>
 # include <process.h>
 /*
  * TODO: This appears to be a modern compat header. Can we examine it for help

@@ -140,7 +140,7 @@ enum asys_result asys_path_remove(const char* path) {
 # ifdef ASYS_WIN32
 	enum asys_result result;
 
-	if(_unlink(path) == -1) {
+	if(unlink(path) == -1) {
 		/*
 		 * TODO: Ensure all Windows call errors log like this for parity with
 		 * 		 *nix-y/stdc EH.
@@ -210,7 +210,7 @@ enum asys_result asys_path_iterate(
 	 */
 	if((find = _findfirst(buffer, &data)) == -1) {
 		result = ASYS_RESULT_ERROR;
-		asys_log_result(__FILE__, "_findfirst", result);
+		asys_log_result_path(__FILE__, "_findfirst", path, result);
 		return result;
 	}
 
@@ -338,6 +338,28 @@ enum asys_result asys_path_iterate(
 	(void) recurse;
 	(void) pass;
 	(void) keep_going;
+
+	return ASYS_RESULT_NOT_IMPLEMENTED;
+#endif
+}
+
+enum asys_result asys_path_change(const char* path) {
+#ifdef ASYS_WIN32
+	if(chdir(path) == -1) {
+		enum asys_result result = ASYS_RESULT_ERROR;
+		asys_result_check_path(__FILE__, "chdir", path, result);
+		return result;
+	}
+
+	return ASYS_RESULT_OK;
+#elif defined(ASYS_UNIX)
+	if(chdir(path) == -1) {
+		return asys_result_errno_path(__FILE__, "chdir", path);
+	}
+
+	return ASYS_RESULT_OK;
+#else
+	(void) path;
 
 	return ASYS_RESULT_NOT_IMPLEMENTED;
 #endif

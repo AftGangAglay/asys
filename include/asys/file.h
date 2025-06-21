@@ -27,4 +27,6 @@ enum asys_result asys_path_iterate(
 		const char*, aga_directory_callback_t, asys_bool_t, void*,
 		asys_bool_t);
 
+enum asys_result asys_path_change(const char*);
+
 #endif
