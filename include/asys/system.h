@@ -38,9 +38,16 @@
 #endif
 
 #ifdef ASYS_UNIX
-# define _DEFAULT_SOURCE /* Avoids modern glibc deprecation warnings. */
-# define _POSIX_C_SOURCE 2
-# define _BSD_SOURCE
+# ifndef _DEFAULT_SOURCE
+#  define _DEFAULT_SOURCE /* Avoids modern glibc deprecation warnings. */
+# endif
+
+# ifndef _POSIX_C_SOURCE
+#  define _POSIX_C_SOURCE 2
+# endif
+# ifndef _BSD_SOURCE
+#  define _BSD_SOURCE
+# endif
 
 # include <unistd.h>
 # include <fcntl.h>
