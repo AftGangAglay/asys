@@ -29,37 +29,23 @@ extern char** __argv;
 int PASCAL WinMain(
 		HINSTANCE instance, HINSTANCE previous, LPSTR command_line, int show) {
 
-	enum asys_result result;
-
 	struct asys_main_data main_data;
-	WNDCLASS window_class;
 
 	(void) command_line;
+
+	if(previous) {
+		asys_log(
+				__FILE__,
+				"warn: asys cannot guarantee previous instances wont conflict"
+				"with application class");
+	}
 
 	main_data.argv = __argv;
 	main_data.argc = __argc;
 	main_data.show = show;
 	main_data.module = instance;
 
-	if(!previous) {
-		asys_log_result(
-				__FILE__, "asys_win32_register_class",
-				asys_win32_register_class(&window_class, instance));
-
-		window_class.lpszClassName = asys_global_win32_class_name;
-
-		if(!RegisterClass(&window_class)) {
-			asys_result_fatal(__FILE__, "RegisterClass", ASYS_RESULT_ERROR);
-		}
-	}
-
 	asys_result_check(__FILE__, "asys_main", asys_main(&main_data));
-
-	if(!UnregisterClass(asys_global_win32_class_name, 0)) {
-		result = ASYS_RESULT_ERROR;
-		asys_log_result(__FILE__, "UnregisterClass", result);
-		return 1;
-	}
 
 	return 0;
 }
