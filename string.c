@@ -57,7 +57,7 @@ int asys_character_to_upper(int character) {
 #ifdef ASYS_STDC
 	return toupper(character);
 #else
-	return (character > 'A' && character < 'Z') ?
+	return (character >= 'a' && character <= 'z') ?
 			(character - case_difference) : character;
 #endif
 }
@@ -66,7 +66,7 @@ int asys_character_to_lower(int character) {
 #ifdef ASYS_STDC
 	return tolower(character);
 #else
-	return (character > 'A' && character < 'Z') ?
+	return (character >= 'A' && character <= 'Z') ?
 			(character + case_difference) : character;
 #endif
 }
