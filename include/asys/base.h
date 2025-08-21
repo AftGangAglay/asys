@@ -71,26 +71,30 @@
 #ifdef ASYS_LP32
 ASYS_EXTENSION typedef long long asys_native_long_t;
 ASYS_EXTENSION typedef unsigned long long asys_native_ulong_t;
-# ifdef ASYS_WIN32
-/*
- * NOTE: `wsprintf' only supports hex for target native long formatting and
- * 		 Does not support signed `long long' formatting at all.
- */
-#  define ASYS_NATIVE_LONG_FORMAT "0x%IX"
-#  define ASYS_NATIVE_ULONG_FORMAT "0x%IX"
-# else
+# define ASYS_MAKE_NATIVE_LONG(v) (ASYS_EXTENSION v##LL)
+# define ASYS_MAKE_NATIVE_ULONG(v) (ASYS_EXTENSION v##ULL)
+# ifdef ASYS_STDC
 #  define ASYS_NATIVE_LONG_FORMAT "%lld"
 #  define ASYS_NATIVE_ULONG_FORMAT "%llu"
 # endif
-# define ASYS_MAKE_NATIVE_LONG(v) (ASYS_EXTENSION v##LL)
-# define ASYS_MAKE_NATIVE_ULONG(v) (ASYS_EXTENSION v##ULL)
 #else /* lp64 */
 typedef long asys_native_long_t;
 typedef unsigned long asys_native_ulong_t;
-# define ASYS_NATIVE_LONG_FORMAT "%ld"
-# define ASYS_NATIVE_ULONG_FORMAT "%lu"
 # define ASYS_MAKE_NATIVE_LONG(v) (v##L)
 # define ASYS_MAKE_NATIVE_ULONG(v) (v##UL)
+# ifdef ASYS_STDC
+#  define ASYS_NATIVE_LONG_FORMAT "%ld"
+#  define ASYS_NATIVE_ULONG_FORMAT "%lu"
+# endif
+#endif
+
+#ifdef ASYS_WIN32
+/*
+ * NOTE: `wsprintf' only supports hex for native ulong formatting and does not
+ *       Support signed `long long' formatting at all.
+ */
+# define ASYS_NATIVE_LONG_FORMAT "0x%IX"
+# define ASYS_NATIVE_ULONG_FORMAT "0x%IX"
 #endif
 
 /* Base typedefs. */

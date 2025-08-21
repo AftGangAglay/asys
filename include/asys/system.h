@@ -75,6 +75,7 @@
 # include <errno.h>
 # include <signal.h>
 # include <math.h>
+# include <limits.h>
 #endif
 
 /*
