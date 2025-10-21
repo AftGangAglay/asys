@@ -1,6 +1,6 @@
 /*
- * SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright (C) 2024 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
+ * SPDX-License-Identifier: X11
+ * Copyright (C) 2025 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
  */
 
 #include <asys/math.h>
@@ -8,9 +8,8 @@
 
 /*
  * NOTE: Sun's "FDLIBM" appears to have been created in 1993 -- older SunOS
- * 		 Used some ASM jankery. Our resident glibc also doesn't try to
- * 		 Implement `sin' in the generic stub. We can trivially roll some of
- * 		 These but not others.
+ * 		 Used some ASM jankery. We can trivially roll some of these but not
+ *		 Others.
  */
 
 double asys_math_acos(double x) {
@@ -93,14 +92,10 @@ double asys_math_pow(double x, double y) {
 	return pow(x, y);
 }
 
-#ifndef ASYS_STDC
-# include <glibc/stdlib/__random.c>
-#endif
-
 double asys_random(void) {
 #ifdef ASYS_STDC
 	return (double) rand() / (double) RAND_MAX;
 #else
-	return (double) glibc___random() / (double) ASYS_NATIVE_LONG_MAX;
+	return 0;
 #endif
 }

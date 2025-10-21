@@ -1,5 +1,5 @@
-# SPDX-License-Identifier: GPL-3.0-or-later
-# Copyright (C) 2024, 2025 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
+# SPDX-License-Identifier: X11
+# Copyright (C) 2025 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
 
 # NOTE: See Win3 Guide section 14.5 for useful implementation info:
 #		http://www.bitsavers.org/pdf/microsoft/windows_3.1

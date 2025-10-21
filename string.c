@@ -1,6 +1,6 @@
 /*
- * SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright (C) 2024 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
+ * SPDX-License-Identifier: X11
+ * Copyright (C) 2025 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
  */
 
 #include <asys/system.h>
@@ -336,10 +336,6 @@ char* asys_string_duplicate(const char* string) {
 	return new;
 }
 
-#ifndef ASYS_STDC
-# include <glibc/stdlib/strtol.c>
-#endif
-
 asys_native_long_t asys_string_to_native_long(
 		const char* string, char** end) {
 
@@ -350,7 +346,7 @@ asys_native_long_t asys_string_to_native_long(
 	return strtol(string, end, 0);
 # endif
 #else
-	return glibc_strtol(string, end, 0);
+	return 0;
 #endif
 }
 
@@ -361,7 +357,6 @@ double asys_string_to_double(const char* string, char** end) {
 	/* TODO: Temporary. */
 	return strtod(string, end);
 #else
-	/* TODO: Use Glibc. */
 	(void) string;
 	(void) end;
 
@@ -385,7 +380,6 @@ enum asys_result asys_float_to_string(
 
 	return ASYS_RESULT_OK;
 #else
-	/* TODO: Use Glibc. */
 	(void) value;
 	(void) buffer;
 

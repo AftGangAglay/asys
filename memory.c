@@ -1,6 +1,6 @@
 /*
- * SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright (C) 2024 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
+ * SPDX-License-Identifier: X11
+ * Copyright (C) 2025 Emily "TTG" Banerjee <prs.ttg+aga@pm.me>
  */
 
 #include <asys/memory.h>
@@ -38,7 +38,6 @@ void asys_memory_move(void* to, const void* from, asys_size_t count) {
 #ifdef ASYS_STDC
 	memmove(to, from, count);
 #else
-	/* TODO: glibc_memmove(to, from, count); */
 	void* intermediate = asys_memory_allocate(count);
 	if(!intermediate) {
 		asys_result_check(__FILE__, "asys_memory_allocate", ASYS_RESULT_OOM);
@@ -56,7 +55,6 @@ int asys_memory_compare(const void* a, const void* b, asys_size_t count) {
 #ifdef ASYS_STDC
 	return memcmp(a, b, count);
 #else
-	/* TODO: return glibc_memcmp(a, b, count); */
 	asys_size_t i;
 
 	const char* ap = a;
@@ -107,7 +105,7 @@ void* asys_memory_allocate(asys_size_t size) {
 
 	return 0;
 #else
-	/* TODO: Heap implementation? Can we borrow from glibc? */
+	/* TODO: Heap implementation? */
 	(void) size;
 
 	return 0;
