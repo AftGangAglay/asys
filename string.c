@@ -345,6 +345,9 @@ asys_native_long_t asys_string_to_native_long(
 # else
 	return strtol(string, end, 0);
 # endif
+#elif defined(ASYS_WIN32)
+	/* TODO: Generic impl. */
+	return strtoll(string, end, 0);
 #else
 	return 0;
 #endif
