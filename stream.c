@@ -386,7 +386,7 @@ enum asys_result asys_stream_attribute(
 
 		/*
 		 * NOTE: The era-accurate call (`_getftime') no longer exists in
-		 * 		 Modern win32 so we need this mess.
+		 * 		 Modern win32, so we need this mess.
 		 */
 		case ASYS_FILE_MODIFIED: {
 # ifdef ASYS_WIN32
