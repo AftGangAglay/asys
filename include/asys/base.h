@@ -36,6 +36,12 @@
 # define ASYS_UNIX
 #endif
 
+#ifdef __MACH__
+# define ASYS_UNIX
+/* TODO: ASys native Mach IO? */
+# define ASYS_MACH
+#endif
+
 /* Utility macros. */
 
 #ifdef ASYS_GNUC

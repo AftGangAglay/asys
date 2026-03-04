@@ -46,9 +46,14 @@
 # ifndef _POSIX_C_SOURCE
 #  define _POSIX_C_SOURCE 2
 # endif
+
 # ifndef _BSD_SOURCE
 #  define _BSD_SOURCE
 # endif
+
+# if defined(ASYS_MACH) && !defined(_DARWIN_C_SOURCE)
+# define _DARWIN_C_SOURCE /* Enables `u_short' etc. defines. */
+#endif
 
 # include <unistd.h>
 # include <fcntl.h>
