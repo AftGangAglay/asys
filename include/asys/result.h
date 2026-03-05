@@ -20,7 +20,8 @@ enum asys_result {
 	ASYS_RESULT_NOT_IMPLEMENTED,
 	ASYS_RESULT_MISSING_KEY,
 	ASYS_RESULT_BAD_TYPE,
-	ASYS_RESULT_BLOCKING
+	ASYS_RESULT_BLOCKING,
+	ASYS_RESULT_INVALID_CONTROL
 };
 
 const char* asys_result_description(enum asys_result);

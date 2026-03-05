@@ -6,10 +6,11 @@
 #ifndef ASYS_MATH_H
 #define ASYS_MATH_H
 
-#include <asys/base.h>
-
 #define ASYS_PI (3.14159265358979323846)
 #define ASYS_E (2.71828182845904523536)
+
+#define ASYS_MIN(a, b) ((a) < (b) ? (a) : (b))
+#define ASYS_MAX(a, b) ((a) < (b) ? (a) : (b))
 
 double asys_math_acos(double);
 double asys_math_asin(double);

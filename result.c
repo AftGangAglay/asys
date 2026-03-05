@@ -25,5 +25,6 @@ const char* asys_result_description(enum asys_result e) {
 		case ASYS_RESULT_MISSING_KEY: return "missing key";
 		case ASYS_RESULT_BAD_TYPE: return "bad type";
 		case ASYS_RESULT_BLOCKING: return "would block";
+		case ASYS_RESULT_INVALID_CONTROL: return "invalid control flow";
 	}
 }
