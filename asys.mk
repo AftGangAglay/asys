@@ -15,13 +15,14 @@ ASYSH = $(ASYS_INCLUDE)asys$(SEP)
 
 ASYS1 = $(ASYS)stream.c $(ASYS)result.c $(ASYS)string.c $(ASYS)memory.c
 ASYS2 = $(ASYS)error.c $(ASYS)log.c $(ASYS)file.c $(ASYS)detail.c
-ASYS3 = $(ASYS)getopt.c $(ASYS)math.c
+ASYS3 = $(ASYS)getopt.c $(ASYS)math.c $(ASYS)control.c
 
 ASYSH1 = $(ASYSH)base.h $(ASYSH)stream.h $(ASYSH)result.h $(ASYSH)system.h
 ASYSH2 = $(ASYSH)string.h $(ASYSH)memory.h $(ASYSH)error.h $(ASYSH)log.h
 ASYSH3 = $(ASYSH)varargs.h $(ASYSH)file.h $(ASYSH)getopt.h $(ASYSH)main.h
+ASYSH4 = $(ASYSH)control.h
 
-ASYS_SRC = $(ASYS1) $(ASYS2) $(ASYS3)
+ASYS_SRC = $(ASYS1) $(ASYS2) $(ASYS3) $(ASYS4)
 ASYS_HDR = $(ASYSH1) $(ASYSH2) $(ASYSH3)
 ASYS_OBJ = $(subst .c,$(OBJ),$(ASYS_SRC))
 

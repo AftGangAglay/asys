@@ -175,7 +175,7 @@ enum asys_result asys_path_remove(const char* path) {
 
 /* TODO: Implement BSD-y `<sys/dir.h>' `direct' interface  */
 enum asys_result asys_path_iterate(
-		const char* path, aga_directory_callback_t callback,
+		const char* path, asys_directory_callback_t callback,
 		asys_bool_t recurse, void* pass, asys_bool_t keep_going) {
 
 #ifdef ASYS_WIN32
