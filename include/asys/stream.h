@@ -64,7 +64,6 @@ enum asys_result asys_stream_attribute(
 		struct asys_stream*, enum asys_file_attribute_field,
 		union asys_file_attribute*);
 
-/* NOTE: No stream-writing IO functions are available outside of dev builds. */
 enum asys_result asys_stream_new_write(struct asys_stream*, const char*);
 enum asys_result asys_stream_set_nonblock(struct asys_stream*);
 
