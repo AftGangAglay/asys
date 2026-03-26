@@ -9,7 +9,7 @@
 const char* asys_result_description(enum asys_result e) {
 	switch(e) {
 		default:; ASYS_FALLTHROUGH;
-			/* FALLTHROUGH */
+		/* FALLTHROUGH */
 		case ASYS_RESULT_OK: return "none";
 
 		case ASYS_RESULT_ERROR: return "unknown";
