@@ -81,6 +81,7 @@
 # include <signal.h>
 # include <math.h>
 # include <limits.h>
+# include <locale.h>
 #endif
 
 /*
