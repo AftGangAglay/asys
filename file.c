@@ -152,9 +152,11 @@ enum asys_result asys_path_remove(const char* path) {
 
 	return ASYS_RESULT_OK;
 # elif defined(ASYS_UNIX)
-	(void) path;
+	if(unlink(path) == -1) {
+		return asys_result_errno_path(__FILE__, "unlink", path);
+	}
 
-	return ASYS_RESULT_NOT_IMPLEMENTED;
+	return ASYS_RESULT_OK;
 # elif defined(ASYS_STDC)
 	if(remove(path) == -1) {
 		return asys_result_errno_path(__FILE__, "remove", path);
